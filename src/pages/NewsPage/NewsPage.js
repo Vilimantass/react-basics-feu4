@@ -6,23 +6,35 @@ import Events from '../../components/Events/Events';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Container from '../../components/Container/Container';
+import { eventsData, podcastsData, newsPageTitle, newsData } from '../../projectData';
 
 function NewsPage() {
+  const pageTitle = newsPageTitle;
+
+  let sidebar;
+
+  if (podcastsData.podcasts.length > 0 || eventsData.events.length > 0) {
+    sidebar = (
+      <aside className="sidebar-content">
+        {podcastsData.podcasts.length > 0 && <PodcastsList podcasts={podcastsData.podcasts} sectionTitle={podcastsData.sectionTitle} />}
+        <Events events={eventsData.events} sectionTitle={eventsData.sectionTitle} moreButton={eventsData.moreButton} />
+      </aside>
+    )
+  }
+
   return (
     <>
       <Header />
       <Container>
         <div className="content-wrapper">
           <main className="main-content">
-            <h1 className="page-title">Naujienos</h1>
-            <News />
+            <h1 className="page-title">{pageTitle}</h1>
+            <News newsData={newsData} />
             <Video />
           </main>
 
-          <aside className="sidebar-content">
-            <PodcastsList />
-            <Events />
-          </aside>
+          {sidebar}
+
         </div>
       </Container>
       <Footer />
